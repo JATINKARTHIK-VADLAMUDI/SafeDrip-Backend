@@ -10,11 +10,19 @@ app.use(bodyParser.json());
 // ---------------- DATA ----------------
 
 let latestData = {
+
   transmitter: "SYS_01",
+
   weight: 0,
+
   relay: "OFF",
+
   status: "SAFE",
-  mode: "AUTO"
+
+  motor: "AUTO",
+
+  buzzer: "AUTO"
+
 };
 
 // ---------------- HOME ----------------
@@ -25,7 +33,7 @@ app.get("/", (req, res) => {
 
 });
 
-// ---------------- GET SENSOR DATA ----------------
+// ---------------- GET DATA ----------------
 
 app.get("/api/data", (req, res) => {
 
@@ -33,13 +41,15 @@ app.get("/api/data", (req, res) => {
 
 });
 
-// ---------------- UPDATE SENSOR DATA ----------------
+// ---------------- UPDATE DATA ----------------
 
 app.post("/api/update", (req, res) => {
 
-  latestData = req.body;
+  latestData.transmitter = req.body.transmitter;
+  latestData.weight = req.body.weight;
+  latestData.relay = req.body.relay;
+  latestData.status = req.body.status;
 
-  console.log("New Data Received");
   console.log(latestData);
 
   res.json({
@@ -48,26 +58,36 @@ app.post("/api/update", (req, res) => {
 
 });
 
-// ---------------- GET CONTROL MODE ----------------
+// ---------------- GET CONTROL ----------------
 
 app.get("/api/control", (req, res) => {
 
   res.json({
-    mode: latestData.mode
+
+    motor: latestData.motor,
+
+    buzzer: latestData.buzzer
+
   });
 
 });
 
-// ---------------- CHANGE CONTROL MODE ----------------
+// ---------------- CHANGE CONTROL ----------------
 
 app.post("/api/control", (req, res) => {
 
-  latestData.mode = req.body.mode;
+  if(req.body.motor)
+    latestData.motor = req.body.motor;
 
-  console.log("Mode Changed :", latestData.mode);
+  if(req.body.buzzer)
+    latestData.buzzer = req.body.buzzer;
+
+  console.log("Motor :",latestData.motor);
+
+  console.log("Buzzer :",latestData.buzzer);
 
   res.json({
-    success: true
+    success:true
   });
 
 });
@@ -76,8 +96,8 @@ app.post("/api/control", (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
+app.listen(PORT,()=>{
 
-  console.log("SafeDrip Server Running On Port", PORT);
+  console.log("Server Running");
 
 });
