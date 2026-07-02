@@ -1,22 +1,11 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
 
 const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
-// ---------------- MONGODB ----------------
-
-mongoose.connect(process.env.MONGODB_URI)
-.then(() => {
-    console.log("✅ MongoDB Connected");
-})
-.catch((err) => {
-    console.log("❌ MongoDB Error");
-    console.log(err);
-});
 
 // ---------------- DATA ----------------
 
@@ -35,39 +24,6 @@ let latestData = {
   buzzer: "AUTO"
 
 };
-// ---------------- MONGODB PATIENT MODEL ----------------
-
-const PatientSchema = new mongoose.Schema({
-
-  transmitter: String,
-
-  patientName: String,
-
-  doctor: String,
-
-  ward: String,
-
-  bed: String,
-
-  age: Number,
-
-  gender: String,
-
-  bloodGroup: String,
-
-  admittedAt: {
-    type: Date,
-    default: Date.now
-  },
-
-  dischargedAt: {
-    type: Date,
-    default: null
-  }
-
-});
-
-const Patient = mongoose.model("Patient", PatientSchema);
 
 // ---------------- HOME ----------------
 
