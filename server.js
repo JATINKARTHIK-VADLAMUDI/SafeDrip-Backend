@@ -204,6 +204,47 @@ app.post("/api/control", (req, res) => {
 
 });
 
+// ---------------- LOGIN ----------------
+
+app.post("/api/login", async (req, res) => {
+
+    try {
+
+        const { username, password } = req.body;
+
+        const user = await db.collection("users").findOne({
+            username: username,
+            password: password
+        });
+
+        if (!user) {
+
+            return res.json({
+                success: false,
+                message: "Invalid Username or Password"
+            });
+
+        }
+
+        res.json({
+            success: true,
+            role: user.role,
+            name: user.name
+        });
+
+    } catch (err) {
+
+        console.log(err);
+
+        res.status(500).json({
+            success: false,
+            message: "Server Error"
+        });
+
+    }
+
+});
+
 // ---------------- SERVER ----------------
 
 const PORT = process.env.PORT || 3000;
