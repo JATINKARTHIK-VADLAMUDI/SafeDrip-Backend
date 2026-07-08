@@ -75,12 +75,44 @@ app.get("/api/data", (req, res) => {
 
 // ---------------- UPDATE DATA ----------------
 
-app.post("/api/update", (req, res) => {
+app.post("/api/update", async (req, res) => {
 
   latestData.transmitter = req.body.transmitter;
   latestData.weight = req.body.weight;
   latestData.relay = req.body.relay;
   latestData.status = req.body.status;
+
+  try {
+
+    await liveDataCollection.updateOne(
+
+      {
+        transmitter: latestData.transmitter
+      },
+
+      {
+        $set: {
+          transmitter: latestData.transmitter,
+          weight: latestData.weight,
+          relay: latestData.relay,
+          status: latestData.status,
+          updatedAt: new Date()
+        }
+      },
+
+      {
+        upsert: true
+      }
+
+    );
+
+    console.log("Saved to MongoDB");
+
+  } catch (err) {
+
+    console.log(err);
+
+  }
 
   console.log(latestData);
 
