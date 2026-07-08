@@ -1,11 +1,43 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const { MongoClient } = require("mongodb");
 
 const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
+
+// ---------------- MONGODB ----------------
+
+const uri = process.env.MONGODB_URI;
+
+const client = new MongoClient(uri);
+
+let db;
+let liveDataCollection;
+let assignmentsCollection;
+let patientsCollection;
+
+async function connectMongo(){
+
+    await client.connect();
+
+    db = client.db("SafeDripDB");
+
+    liveDataCollection = db.collection("live_data");
+
+    assignmentsCollection = db.collection("assignments");
+
+    patientsCollection = db.collection("patients");
+
+    console.log("MongoDB Connected");
+
+}
+
+connectMongo();
+
+
 
 // ---------------- DATA ----------------
 
