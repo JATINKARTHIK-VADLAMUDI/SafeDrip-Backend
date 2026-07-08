@@ -73,6 +73,54 @@ app.get("/api/data", (req, res) => {
 
 });
 
+// ---------------- GET BED DATA ----------------
+
+app.get("/api/bed-data", async (req, res) => {
+
+  try {
+
+    const bed = req.query.bed;
+
+    if (!bed) {
+      return res.status(400).json({
+        error: "Bed number required"
+      });
+    }
+
+    const assignment = await assignmentsCollection.findOne({
+      bed: bed
+    });
+
+    if (!assignment) {
+      return res.status(404).json({
+        error: "No transmitter assigned"
+      });
+    }
+
+    const data = await liveDataCollection.findOne({
+      transmitter: assignment.transmitter
+    });
+
+    if (!data) {
+      return res.status(404).json({
+        error: "No live data found"
+      });
+    }
+
+    res.json(data);
+
+  } catch (err) {
+
+    console.log(err);
+
+    res.status(500).json({
+      error: "Server Error"
+    });
+
+  }
+
+});
+
 // ---------------- UPDATE DATA ----------------
 
 app.post("/api/update", async (req, res) => {
