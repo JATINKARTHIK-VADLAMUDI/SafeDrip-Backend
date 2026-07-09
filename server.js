@@ -273,6 +273,31 @@ app.post("/api/patients", async (req, res) => {
 
 });
 
+// ---------------- GET ALL PATIENTS ----------------
+
+app.get("/api/patients", async (req, res) => {
+
+    try {
+
+        const patients = await patientsCollection.find().toArray();
+
+        res.json(patients);
+
+    }
+
+    catch(err){
+
+        console.log(err);
+
+        res.status(500).json({
+            success:false,
+            message:"Unable to Fetch Patients"
+        });
+
+    }
+
+});
+
 // ---------------- SERVER ----------------
 
 const PORT = process.env.PORT || 3000;
