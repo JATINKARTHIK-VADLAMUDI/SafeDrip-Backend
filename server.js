@@ -245,6 +245,34 @@ app.post("/api/login", async (req, res) => {
 
 });
 
+// ---------------- ADD PATIENT ----------------
+
+app.post("/api/patients", async (req, res) => {
+
+    try {
+
+        await patientsCollection.insertOne(req.body);
+
+        res.json({
+            success: true,
+            message: "Patient Saved Successfully"
+        });
+
+    }
+
+    catch(err){
+
+        console.log(err);
+
+        res.status(500).json({
+            success:false,
+            message:"Unable to Save Patient"
+        });
+
+    }
+
+});
+
 // ---------------- SERVER ----------------
 
 const PORT = process.env.PORT || 3000;
