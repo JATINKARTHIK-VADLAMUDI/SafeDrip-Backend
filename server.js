@@ -298,6 +298,48 @@ app.get("/api/patients", async (req, res) => {
 
 });
 
+// ---------------- UPDATE PATIENT ----------------
+
+app.put("/api/patients/:id", async (req, res) => {
+
+    try{
+
+        const { ObjectId } = require("mongodb");
+
+        await patientsCollection.updateOne(
+
+            { _id: new ObjectId(req.params.id) },
+
+            { $set: req.body }
+
+        );
+
+        res.json({
+
+            success:true,
+
+            message:"Patient Updated Successfully"
+
+        });
+
+    }
+
+    catch(err){
+
+        console.log(err);
+
+        res.status(500).json({
+
+            success:false,
+
+            message:"Unable to Update Patient"
+
+        });
+
+    }
+
+});
+
 // ---------------- SERVER ----------------
 
 const PORT = process.env.PORT || 3000;
