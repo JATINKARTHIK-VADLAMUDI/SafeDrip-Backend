@@ -369,6 +369,46 @@ app.put("/api/patients/:id", async (req, res) => {
 
 });
 
+// ---------------- DELETE PATIENT ----------------
+
+app.delete("/api/patients/:id", async (req,res)=>{
+
+    try{
+
+        const { ObjectId } = require("mongodb");
+
+        await patientsCollection.deleteOne({
+
+            _id:new ObjectId(req.params.id)
+
+        });
+
+        res.json({
+
+            success:true,
+
+            message:"Patient Deleted Successfully"
+
+        });
+
+    }
+
+    catch(err){
+
+        console.log(err);
+
+        res.status(500).json({
+
+            success:false,
+
+            message:"Unable to Delete Patient"
+
+        });
+
+    }
+
+});
+
 // ---------------- SERVER ----------------
 
 const PORT = process.env.PORT || 3000;
