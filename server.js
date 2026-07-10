@@ -409,6 +409,40 @@ app.delete("/api/patients/:id", async (req,res)=>{
 
 });
 
+// ---------------- ADD BED ----------------
+
+app.post("/api/beds", async (req, res) => {
+
+    try{
+
+        await bedsCollection.insertOne(req.body);
+
+        res.json({
+
+            success:true,
+
+            message:"Bed Saved Successfully"
+
+        });
+
+    }
+
+    catch(err){
+
+        console.log(err);
+
+        res.status(500).json({
+
+            success:false,
+
+            message:"Unable to Save Bed"
+
+        });
+
+    }
+
+});
+
 // ---------------- SERVER ----------------
 
 const PORT = process.env.PORT || 3000;
