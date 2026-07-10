@@ -18,6 +18,7 @@ let db;
 let liveDataCollection;
 let assignmentsCollection;
 let patientsCollection;
+let bedsCollection;
 
 async function connectMongo(){
 
@@ -26,10 +27,9 @@ async function connectMongo(){
     db = client.db("SafeDripDB");
 
     liveDataCollection = db.collection("live_data");
-
     assignmentsCollection = db.collection("assignments");
-
     patientsCollection = db.collection("patients");
+    bedsCollection = db.collection("beds");
 
     console.log("MongoDB Connected");
 
