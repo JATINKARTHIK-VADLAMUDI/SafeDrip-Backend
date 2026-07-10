@@ -298,6 +298,35 @@ app.get("/api/patients", async (req, res) => {
 
 });
 
+// ---------------- GET ONE PATIENT ----------------
+
+app.get("/api/patients/:id", async (req, res) => {
+
+    try{
+
+        const { ObjectId } = require("mongodb");
+
+        const patient = await patientsCollection.findOne({
+            _id: new ObjectId(req.params.id)
+        });
+
+        res.json(patient);
+
+    }
+
+    catch(err){
+
+        console.log(err);
+
+        res.status(500).json({
+            success:false,
+            message:"Unable to Fetch Patient"
+        });
+
+    }
+
+});
+
 // ---------------- UPDATE PATIENT ----------------
 
 app.put("/api/patients/:id", async (req, res) => {
