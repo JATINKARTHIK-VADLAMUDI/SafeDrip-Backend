@@ -471,6 +471,48 @@ app.get("/api/beds", async (req, res) => {
 
 });
 
+// ---------------- UPDATE BED ----------------
+
+app.put("/api/beds/:id", async (req,res)=>{
+
+    try{
+
+        const { ObjectId } = require("mongodb");
+
+        await bedsCollection.updateOne(
+
+            { _id:new ObjectId(req.params.id) },
+
+            { $set:req.body }
+
+        );
+
+        res.json({
+
+            success:true,
+
+            message:"Bed Updated Successfully"
+
+        });
+
+    }
+
+    catch(err){
+
+        console.log(err);
+
+        res.status(500).json({
+
+            success:false,
+
+            message:"Unable to Update Bed"
+
+        });
+
+    }
+
+});
+
 // ---------------- SERVER ----------------
 
 const PORT = process.env.PORT || 3000;
