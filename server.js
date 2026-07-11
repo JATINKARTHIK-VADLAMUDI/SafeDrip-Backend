@@ -443,6 +443,34 @@ app.post("/api/beds", async (req, res) => {
 
 });
 
+// ---------------- GET ALL BEDS ----------------
+
+app.get("/api/beds", async (req, res) => {
+
+    try {
+
+        const beds = await bedsCollection.find().toArray();
+
+        res.json(beds);
+
+    }
+
+    catch (err) {
+
+        console.log(err);
+
+        res.status(500).json({
+
+            success: false,
+
+            message: "Unable to Fetch Beds"
+
+        });
+
+    }
+
+});
+
 // ---------------- SERVER ----------------
 
 const PORT = process.env.PORT || 3000;
