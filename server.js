@@ -513,6 +513,46 @@ app.put("/api/beds/:id", async (req,res)=>{
 
 });
 
+// ---------------- DELETE BED ----------------
+
+app.delete("/api/beds/:id", async (req,res)=>{
+
+    try{
+
+        const { ObjectId } = require("mongodb");
+
+        await bedsCollection.deleteOne({
+
+            _id:new ObjectId(req.params.id)
+
+        });
+
+        res.json({
+
+            success:true,
+
+            message:"Bed Deleted Successfully"
+
+        });
+
+    }
+
+    catch(err){
+
+        console.log(err);
+
+        res.status(500).json({
+
+            success:false,
+
+            message:"Unable to Delete Bed"
+
+        });
+
+    }
+
+});
+
 // ---------------- SERVER ----------------
 
 const PORT = process.env.PORT || 3000;
