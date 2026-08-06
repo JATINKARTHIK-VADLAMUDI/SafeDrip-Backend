@@ -615,6 +615,40 @@ app.get("/api/dashboard", async (req, res) => {
 
 });
 
+// ---------------- ADD TRANSMITTER ----------------
+
+app.post("/api/transmitters", async (req, res) => {
+
+    try{
+
+        await transmittersCollection.insertOne(req.body);
+
+        res.json({
+
+            success: true,
+
+            message: "Transmitter Saved Successfully"
+
+        });
+
+    }
+
+    catch(err){
+
+        console.log(err);
+
+        res.status(500).json({
+
+            success: false,
+
+            message: "Unable to Save Transmitter"
+
+        });
+
+    }
+
+});
+
 // ---------------- SERVER ----------------
 
 const PORT = process.env.PORT || 3000;
