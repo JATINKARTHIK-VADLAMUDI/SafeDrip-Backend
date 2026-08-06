@@ -678,6 +678,48 @@ app.get("/api/transmitters", async (req, res) => {
 
 });
 
+// ---------------- UPDATE TRANSMITTER ----------------
+
+app.put("/api/transmitters/:id", async (req,res)=>{
+
+    try{
+
+        const { ObjectId } = require("mongodb");
+
+        await transmittersCollection.updateOne(
+
+            { _id:new ObjectId(req.params.id) },
+
+            { $set:req.body }
+
+        );
+
+        res.json({
+
+            success:true,
+
+            message:"Transmitter Updated Successfully"
+
+        });
+
+    }
+
+    catch(err){
+
+        console.log(err);
+
+        res.status(500).json({
+
+            success:false,
+
+            message:"Unable to Update Transmitter"
+
+        });
+
+    }
+
+});
+
 // ---------------- SERVER ----------------
 
 const PORT = process.env.PORT || 3000;
