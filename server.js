@@ -254,6 +254,25 @@ app.post("/api/patients", async (req, res) => {
     try {
 
         await patientsCollection.insertOne(req.body);
+        await bedsCollection.updateOne(
+
+    {
+
+        bedNumber: req.body.bed
+
+    },
+
+    {
+
+        $set: {
+
+            status: "Occupied"
+
+        }
+
+    }
+
+);
 
         res.json({
             success: true,
