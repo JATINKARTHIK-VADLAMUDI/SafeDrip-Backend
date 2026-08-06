@@ -19,6 +19,7 @@ let liveDataCollection;
 let assignmentsCollection;
 let patientsCollection;
 let bedsCollection;
+let transmittersCollection;
 
 async function connectMongo(){
 
@@ -30,6 +31,7 @@ async function connectMongo(){
     assignmentsCollection = db.collection("assignments");
     patientsCollection = db.collection("patients");
     bedsCollection = db.collection("beds");
+    transmittersCollection = db.collection("transmitters");
 
     console.log("MongoDB Connected");
 
