@@ -649,6 +649,35 @@ app.post("/api/transmitters", async (req, res) => {
 
 });
 
+// ---------------- GET ALL TRANSMITTERS ----------------
+
+app.get("/api/transmitters", async (req, res) => {
+
+    try{
+
+        const transmitters =
+            await transmittersCollection.find().toArray();
+
+        res.json(transmitters);
+
+    }
+
+    catch(err){
+
+        console.log(err);
+
+        res.status(500).json({
+
+            success:false,
+
+            message:"Unable to Fetch Transmitters"
+
+        });
+
+    }
+
+});
+
 // ---------------- SERVER ----------------
 
 const PORT = process.env.PORT || 3000;
