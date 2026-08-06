@@ -553,6 +553,66 @@ app.delete("/api/beds/:id", async (req,res)=>{
 
 });
 
+// ---------------- DASHBOARD ----------------
+
+app.get("/api/dashboard", async (req, res) => {
+
+    try{
+
+        const totalPatients =
+            await patientsCollection.countDocuments();
+
+        const occupiedBeds =
+            await patientsCollection.countDocuments();
+
+        const now = new Date();
+
+        const activeTransmitters =
+            await liveDataCollection.countDocuments({
+
+                updatedAt: {
+
+                    $gte: new Date(now.getTime() - 15000)
+
+                }
+
+            });
+
+        const criticalAlerts =
+            await liveDataCollection.countDocuments({
+
+                status: "DANGER"
+
+            });
+
+        res.json({
+
+            totalPatients,
+
+            occupiedBeds,
+
+            activeTransmitters,
+
+            criticalAlerts
+
+        });
+
+    }
+
+    catch(err){
+
+        console.log(err);
+
+        res.status(500).json({
+
+            success:false
+
+        });
+
+    }
+
+});
+
 // ---------------- SERVER ----------------
 
 const PORT = process.env.PORT || 3000;
