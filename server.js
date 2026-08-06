@@ -485,6 +485,38 @@ app.get("/api/beds", async (req, res) => {
 
 });
 
+// ---------------- GET AVAILABLE BEDS ----------------
+
+app.get("/api/available-beds", async (req, res) => {
+
+    try{
+
+        const beds = await bedsCollection.find({
+
+            status: "Available"
+
+        }).toArray();
+
+        res.json(beds);
+
+    }
+
+    catch(err){
+
+        console.log(err);
+
+        res.status(500).json({
+
+            success:false,
+
+            message:"Unable to Fetch Available Beds"
+
+        });
+
+    }
+
+});
+
 // ---------------- UPDATE BED ----------------
 
 app.put("/api/beds/:id", async (req,res)=>{
